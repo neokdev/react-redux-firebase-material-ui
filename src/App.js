@@ -1,28 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import NavBar from './components/layout/Navbar';
 import './App.css';
+import withRoot from './withRoot';
+import Dashboard from './components/dashboard/Dashboard';
+import ProjectDetails from './components/projects/ProjectDetails';
+import SignIn from './components/auth/SignIn';
+import SignUp from './components/auth/SignUp';
+import CreateProject from './components/projects/CreateProject';
+import { SnackbarProvider } from 'notistack';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <SnackbarProvider maxSnack={3}>
+                <BrowserRouter>
+                    <React.Fragment>
+                        <CssBaseline />
+                        <div>
+                            <NavBar />
+                            <Switch>
+                                <Route
+                                    exact
+                                    path='/'
+                                    component={Dashboard} />
+                                <Route
+                                    path='/project/:id'
+                                    component={ProjectDetails} />
+                                <Route
+                                    path='/signin'
+                                    component={SignIn} />
+                                <Route
+                                    path='/signup'
+                                    component={SignUp} />
+                                <Route
+                                    path='/create'
+                                    component={CreateProject} />
+                            </Switch>
+                        </div>
+                    </React.Fragment>
+                </BrowserRouter>
+            </SnackbarProvider>
+        );
+
+    }
 }
 
-export default App;
+export default withRoot(App);
